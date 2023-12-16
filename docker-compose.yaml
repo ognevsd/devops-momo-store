@@ -1,0 +1,27 @@
+version: "3.3"
+
+services:
+  backend:
+    image: momo-backend:latest
+    container_name: momo-backend
+    environment:
+      - VIRTUAL_HOST=momo-store
+    restart: always
+    networks:
+      - momo-store
+  frontend:
+    # image: momo-front:0.0.6
+    build: ./frontend
+    container_name: momo-frontend
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    environment:
+      - DEFAULT_HOST=momo-store
+    ports:
+      - "80:80"
+    networks:
+      - momo-store
+
+networks:
+  momo-store:
